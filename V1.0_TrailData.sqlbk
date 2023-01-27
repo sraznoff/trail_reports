@@ -1,0 +1,2 @@
+insert into trail 
+INSERT INTO customers (customer_id, first_name, last_name, phone) VALUES('VAN_ALTENA_AGNI', 'Agni', 'Van Altena', NULL);
