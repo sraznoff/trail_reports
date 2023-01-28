@@ -9,4 +9,10 @@ public interface ReportService {
 
 	Report deleteReport(Long report_id);
 
+	Report updateReport(Long report_id, ReportType report_type, Long trail_id, Long user_id, String report_date,
+			String description, String location);
+
+	Report createReport(ReportType report_type, Long trail_id, Long user_id, String report_date, String description,
+			String location);
+
 }

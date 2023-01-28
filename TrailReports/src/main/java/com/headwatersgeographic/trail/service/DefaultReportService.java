@@ -29,5 +29,17 @@ public class DefaultReportService implements ReportService{
 		return reportDao.deleteReport(report_id);
 	}
 
+	@Override
+	public Report updateReport(Long report_id, ReportType report_type, Long trail_id, Long user_id, String report_date,
+			String description, String location) {
+		return reportDao.updateReport(report_id, report_type, trail_id, user_id, report_date,
+				description, location);
+	}
 
+	@Override
+	public Report createReport(ReportType report_type, Long trail_id, Long user_id, String report_date,
+			String description, String location) {
+		return reportDao.createReport(report_type, trail_id, user_id, report_date, description, location);
+
+	}
 }

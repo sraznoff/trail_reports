@@ -32,6 +32,7 @@ class FetchPermittedUsesTest {
 	@Test
 	void testThatAllPermittedUsesAreReturned() {
 		String uri = String.format("http://localhost:%d/permitted_use?", serverPort);
+		System.out.println(uri);
 		ResponseEntity<List<PermittedUse>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {	});
 		assertThat(response.getBody()).isNotEmpty();
 	}

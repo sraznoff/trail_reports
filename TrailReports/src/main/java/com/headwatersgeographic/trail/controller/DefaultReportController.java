@@ -1,6 +1,7 @@
 package com.headwatersgeographic.trail.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,19 @@ public class DefaultReportController implements ReportController {
 	public Report deleteReport(Long report_id) {
 		log.info("Delete Report Controller");
 		return reportService.deleteReport(report_id);
+	}
+
+	@Override
+	public Report updateReport(Long report_id, ReportType report_type, Long trail_id, Long user_id, String report_date,
+			String description, String location) {
+		return reportService.updateReport(report_id, report_type, trail_id, user_id, report_date,
+				description, location);
+	}
+
+	@Override
+	public Report createReport(ReportType report_type, Long trail_id, Long user_id, String report_date,
+			String description, String location) {
+		return reportService.createReport(report_type, trail_id, user_id, report_date, description, location);
 	}
 
 }

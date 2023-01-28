@@ -1,6 +1,5 @@
 package com.headwatersgeographic.trail.controller;
 
-import java.sql.Date;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -113,7 +112,7 @@ List<Report> fetchReports(
 					}
 			
 			)
-	@RequestMapping(value="/delete_report",method = RequestMethod.GET)
+	@RequestMapping(value="/delete_report",method = RequestMethod.DELETE)
 	@ResponseStatus(code = HttpStatus.OK)
 	Report deleteReport(@RequestParam(required = true) Long report_id);
 	
@@ -162,42 +161,120 @@ List<Report> fetchReports(
 							@Parameter(
 									name = "user_id", 
 									allowEmptyValue = false, 
-									required = true, 
+									required = false, 
 									description = "The id of the author of this report,  Null values will be ignored/unchanged."
 									),
 							@Parameter(
 									name = "report_date", 
 									allowEmptyValue = false, 
-									required = true, 
+									required = false, 
 									description = "Update the date of the report.  Null values will be ignored/unchanged."
 									),
 							@Parameter(
 									name = "location", 
 									allowEmptyValue = false, 
-									required = true, 
+									required = false, 
 									description = "The location of the report if it is a spot report.  Null values will be ignored/unchanged."
 									),
 							@Parameter(
 									name = "description", 
 									allowEmptyValue = false, 
-									required = true, 
+									required = false, 
 									description = "Update the description of the report.  Null values will be ignored/unchanged."
 									)
 							
 					}
 			
 			)
-	@RequestMapping(value="/update_report",method = RequestMethod.PUT)
+	@RequestMapping(value="/update_report",method = RequestMethod.PATCH)
 	@ResponseStatus(code = HttpStatus.OK)
 	Report updateReport(
 			//@formatter:off
 			@RequestParam(required = true) Long report_id,
+			@RequestParam(required = false) ReportType report_type,
+			@RequestParam(required = false) Long trail_id,
+			@RequestParam(required = false) Long user_id,
+			@RequestParam(required = false) String report_date,
+			@RequestParam(required = false) String description,
+			@RequestParam(required = false) String location
+			//@formatter:on
+	);
+	
+	@Operation(
+			summary = "Create a report",
+			description = "Create a report by supplying required parameters and any optional you want to include as well.",
+			responses= {
+					@ApiResponse(
+							responseCode = "200", 
+							description = "A report has been created.", 
+							content = @Content(
+									mediaType = "application/json", 
+									schema = @Schema(implementation = Report.class))),
+					@ApiResponse(
+							responseCode = "400", 
+							description = "The request parameters are invalid.", 
+							content = @Content(mediaType = "application/json")),
+					@ApiResponse(
+							responseCode = "404", 
+							description = "No reports were found with the input criteria.", 
+							content = @Content(mediaType = "application/json")),
+					@ApiResponse(
+							responseCode = "500", 
+							description = "An unplanned error occured.", 
+							content = @Content(mediaType = "application/json"))	
+				},
+					parameters = {
+							@Parameter(
+									name = "report_type", 
+									allowEmptyValue = false, 
+									required = true, 
+									description = "The type of report to be created."
+									),
+							@Parameter(
+									name = "trail_id", 
+									allowEmptyValue = false, 
+									required = true, 
+									description = "The trail that is being reported on."
+									),
+							@Parameter(
+									name = "user_id", 
+									allowEmptyValue = false, 
+									required = true, 
+									description = "The id of the author of this report."
+									),
+							@Parameter(
+									name = "report_date", 
+									allowEmptyValue = false, 
+									required = true, 
+									description = "the report date."
+									),
+							@Parameter(
+									name = "location", 
+									allowEmptyValue = false, 
+									required = false, 
+									description = "The location of the report if it is a spot report.  General reports for entire trails should be left null."
+									),
+							@Parameter(
+									name = "description", 
+									allowEmptyValue = false, 
+									required = false, 
+									description = "Update the description of the report."
+									)
+							
+					}
+			
+			)
+	@RequestMapping(value="/create_report",method = RequestMethod.POST)
+	@ResponseStatus(code = HttpStatus.OK)
+	Report createReport(
+			//@formatter:off
 			@RequestParam(required = true) ReportType report_type,
 			@RequestParam(required = true) Long trail_id,
 			@RequestParam(required = true) Long user_id,
-			@RequestParam(required = true) Date report_date,
-			@RequestParam(required = true) String description,
-			@RequestParam(required = true) String location
+			@RequestParam(required = true) String report_date,
+			@RequestParam(required = false) String description,
+			@RequestParam(required = false) String location
+			//@formatter:on
 	);
 
 }
